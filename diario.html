@@ -1,12 +1,37 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diário Alimentar & Dashboard de Macros</title>
     <link rel="stylesheet" href="css/diario.css">
 </head>
+
 <body>
+
+
+
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar">
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <span class="icon">🏠</span> Início
+            </a>
+            <a href="dashboard.html#calculators" class="nav-item">
+                <span class="icon">🧮</span> Calculadoras
+            </a>
+            <a href="treino.html" class="nav-item">
+                <span class="icon">🏋️</span> Meus Treinos
+            </a>
+            <a href="diario.html" class="nav-item active">
+                <span class="icon">🥗</span> Dieta & Macros
+            </a>
+            <a href="login.html" class="nav-item">
+                <span class="icon">🚪</span> Sair
+            </a>
+        </nav>
+    </aside>
 
     <main class="container">
         <!-- CARD PRINCIPAL -->
@@ -16,12 +41,13 @@
                     <h3 class="card-title">Diário Alimentar & Dashboard</h3>
                     <span class="card-subtitle">Ajuste suas metas e acompanhe seus macronutrientes</span>
                 </div>
-               <div class="badge-macro-total">
-        <span id="current-kcal">0</span> / 
-        <input type="number" id="input-meta-kcal" value="2000" min="500" max="10000" step="50" class="input-meta"> 
-        <span>kcal</span>
-    </div>
-</div>
+                <div class="badge-macro-total">
+                    <span id="current-kcal">0</span> /
+                    <input type="number" id="input-meta-kcal" value="2000" min="500" max="10000" step="50"
+                        class="input-meta">
+                    <span>kcal</span>
+                </div>
+            </div>
 
             <!-- PAINEL DE CONFIGURAÇÃO DE PORCENTAGEM -->
             <div class="macro-ratios-config">
@@ -50,7 +76,8 @@
                     <div class="circle-chart">
                         <svg viewBox="0 0 100 100">
                             <circle class="circle-bg" cx="50" cy="50" r="40"></circle>
-                            <circle class="circle-progress fill-carbs" id="circle-carbs" cx="50" cy="50" r="40"></circle>
+                            <circle class="circle-progress fill-carbs" id="circle-carbs" cx="50" cy="50" r="40">
+                            </circle>
                         </svg>
                         <div class="circle-center">
                             <span id="txt-carbs-pct" class="circle-pct">0%</span>
@@ -68,7 +95,8 @@
                     <div class="circle-chart">
                         <svg viewBox="0 0 100 100">
                             <circle class="circle-bg" cx="50" cy="50" r="40"></circle>
-                            <circle class="circle-progress fill-protein" id="circle-protein" cx="50" cy="50" r="40"></circle>
+                            <circle class="circle-progress fill-protein" id="circle-protein" cx="50" cy="50" r="40">
+                            </circle>
                         </svg>
                         <div class="circle-center">
                             <span id="txt-protein-pct" class="circle-pct">0%</span>
@@ -102,51 +130,53 @@
 
             <hr class="divider">
 
-         <!-- ÁREA DE REGISTRO DE ALIMENTOS -->
-<div class="add-food-section">
-    <h4>Adicionar Alimento à Refeição</h4>
-    
-    <!-- NOVO: Campo de Busca Rápida -->
-    <div class="search-box-wrapper">
-        <input type="text" id="input-search-food" placeholder="🔍 Buscar alimento na lista..." class="input-text input-search">
-    </div>
+            <!-- ÁREA DE REGISTRO DE ALIMENTOS -->
+            <div class="add-food-section">
+                <h4>Adicionar Alimento à Refeição</h4>
 
-    <div class="food-controls">
-        <!-- NOVO: Seletor do Tipo de Refeição -->
-        <select id="select-meal" class="input-select select-meal">
-            <option value="cafe">☕ Café da Manhã</option>
-            <option value="almoco">🍲 Almoço</option>
+                <!-- NOVO: Campo de Busca Rápida -->
+                <div class="search-box-wrapper">
+                    <input type="text" id="input-search-food" placeholder="🔍 Buscar alimento na lista..."
+                        class="input-text input-search">
+                </div>
 
-            <option value="jantar">🌙 Jantar</option>
-            <option value="lanche">🍎 Lanches / Outros</option>
-        </select>
+                <div class="food-controls">
+                    <!-- NOVO: Seletor do Tipo de Refeição -->
+                    <select id="select-meal" class="input-select select-meal">
+                        <option value="cafe">☕ Café da Manhã</option>
+                        <option value="almoco">🍲 Almoço</option>
 
-        <select id="select-food" class="input-select">
-            <!-- Preenchido via JS -->
-        </select>
+                        <option value="jantar">🌙 Jantar</option>
+                        <option value="lanche">🍎 Lanches / Outros</option>
+                    </select>
 
-        <div class="input-qty-wrapper">
-            <input type="number" id="input-grams" placeholder="Qtd" value="100" min="1" class="input-num">
-            <span id="unit-badge" class="unit-badge">g</span>
-        </div>
+                    <select id="select-food" class="input-select">
+                        <!-- Preenchido via JS -->
+                    </select>
 
-        <button id="btn-add-food" class="btn-add">+ Adicionar</button>
-    </div>
-    <div id="add-food-error" class="input-error hidden">Selecione um alimento e informe uma quantidade válida.</div>
+                    <div class="input-qty-wrapper">
+                        <input type="number" id="input-grams" placeholder="Qtd" value="100" min="1" class="input-num">
+                        <span id="unit-badge" class="unit-badge">g</span>
+                    </div>
 
-    <div class="custom-food-trigger">
-        <span>Não encontrou o item desejado?</span>
-        <button id="btn-open-custom-modal" class="btn-link">Cadastrar Alimento Personalizado</button>
-    </div>
-</div>
+                    <button id="btn-add-food" class="btn-add">+ Adicionar</button>
+                </div>
+                <div id="add-food-error" class="input-error hidden">Selecione um alimento e informe uma quantidade
+                    válida.</div>
 
-<!-- LISTA DE REFEIÇÕES DO DIA -->
-<div class="logged-list-container">
-    <h4>Refeições do Dia</h4>
-    <div id="logged-foods-list">
-        <!-- Preenchido dinamicamente via JS por categorias de refeição -->
-    </div>
-</div>
+                <div class="custom-food-trigger">
+                    <span>Não encontrou o item desejado?</span>
+                    <button id="btn-open-custom-modal" class="btn-link">Cadastrar Alimento Personalizado</button>
+                </div>
+            </div>
+
+            <!-- LISTA DE REFEIÇÕES DO DIA -->
+            <div class="logged-list-container">
+                <h4>Refeições do Dia</h4>
+                <div id="logged-foods-list">
+                    <!-- Preenchido dinamicamente via JS por categorias de refeição -->
+                </div>
+            </div>
         </section>
     </main>
 
@@ -157,11 +187,12 @@
                 <h3>Cadastrar Alimento Personalizado</h3>
                 <button id="btn-close-modal" class="btn-close">&times;</button>
             </div>
-            
+
             <form id="form-custom-food" class="modal-form">
                 <div class="form-group">
                     <label>Nome do Alimento:</label>
-                    <input type="text" id="custom-name" placeholder="Ex: Pão de Forma / Whey Protein" required class="input-text">
+                    <input type="text" id="custom-name" placeholder="Ex: Pão de Forma / Whey Protein" required
+                        class="input-text">
                 </div>
 
                 <div class="form-group">
@@ -175,15 +206,18 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>Carbo (g):</label>
-                        <input type="number" id="custom-carbo" step="0.1" value="0" min="0" required class="input-num-modal">
+                        <input type="number" id="custom-carbo" step="0.1" value="0" min="0" required
+                            class="input-num-modal">
                     </div>
                     <div class="form-group">
                         <label>Proteína (g):</label>
-                        <input type="number" id="custom-prot" step="0.1" value="0" min="0" required class="input-num-modal">
+                        <input type="number" id="custom-prot" step="0.1" value="0" min="0" required
+                            class="input-num-modal">
                     </div>
                     <div class="form-group">
                         <label>Gordura (g):</label>
-                        <input type="number" id="custom-gord" step="0.1" value="0" min="0" required class="input-num-modal">
+                        <input type="number" id="custom-gord" step="0.1" value="0" min="0" required
+                            class="input-num-modal">
                     </div>
                 </div>
 
@@ -197,4 +231,5 @@
 
     <script src="js/diario.js"></script>
 </body>
+
 </html>
