@@ -1,0 +1,521 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+}
+
+.card-diario {
+    background: #1e293b;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.card-subtitle {
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.badge-macro-total {
+    background: #334155;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #38bdf8;
+}
+
+/* CONFIGURAÇÃO DE MACROS */
+.macro-ratios-config {
+    background: rgba(15, 23, 42, 0.6);
+    padding: 14px 16px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.config-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #94a3b8;
+}
+
+.ratio-inputs {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.ratio-inputs label {
+    font-size: 0.85rem;
+    color: #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.input-pct {
+    width: 55px;
+    background: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #38bdf8;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.pct-warning {
+    font-size: 0.8rem;
+    color: #ef4444;
+    font-weight: 600;
+    width: 100%;
+}
+
+/* DASHBOARD DE CÍRCULOS (CIRCULAR PROGRESS) */
+.macro-circles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.circle-card {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.circle-chart {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    margin-bottom: 12px;
+}
+
+.circle-chart svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.circle-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.08);
+    stroke-width: 8;
+}
+
+.circle-progress {
+    fill: none;
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 251.327;
+    stroke-dashoffset: 251.327;
+    transition: stroke-dashoffset 0.5s ease-in-out;
+}
+
+.fill-carbs { stroke: #10b981; }
+.fill-protein { stroke: #8b5cf6; }
+.fill-fats { stroke: #f59e0b; }
+
+.circle-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.circle-pct {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #f8fafc;
+}
+
+.circle-label {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+.circle-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.macro-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.dot-carbs-text { color: #10b981; }
+.dot-protein-text { color: #8b5cf6; }
+.dot-fats-text { color: #f59e0b; }
+
+.macro-val {
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin: 20px 0;
+}
+
+/* ÁREA DE CONTROLES E INPUTS */
+.add-food-section h4, .logged-list-container h4 {
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    color: #e2e8f0;
+}
+
+.food-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.input-select, .input-num, .input-text {
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 8px;
+    outline: none;
+}
+
+.input-select { flex: 2; min-width: 200px; }
+
+/* WRAPPER DO CAMPO DE QUANTIDADE COM A UNIDADE (g/un) */
+.input-qty-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 90px;
+}
+
+.input-qty-wrapper .input-num {
+    width: 100%;
+    padding-right: 32px;
+}
+
+.unit-badge {
+    position: absolute;
+    right: 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #38bdf8;
+    pointer-events: none;
+}
+
+.btn-add {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-add:hover { background: #38bdf8; color: #0f172a; }
+
+.input-error {
+    font-size: 0.8rem;
+    color: #ef4444;
+    margin-top: 8px;
+}
+
+.custom-food-trigger {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: #38bdf8;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 0.85rem;
+    margin-left: 6px;
+}
+
+/* LISTA */
+.logged-list-container {
+    margin-top: 20px;
+}
+
+.food-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.empty-msg {
+    color: #64748b;
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+.food-item {
+    background: #0f172a;
+    padding: 12px 16px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.88rem;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.food-item-info strong { display: block; color: #f8fafc; }
+.food-item-info small { color: #94a3b8; }
+
+.btn-delete-item {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn-delete-item:hover {
+    background: #ef4444;
+    color: #fff;
+}
+
+/* MODAL */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background: #1e293b;
+    border-radius: 16px;
+    padding: 24px;
+    width: 90%;
+    max-width: 480px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    color: #cbd5e1;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+.input-num-modal {
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 8px 10px;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background: #334155;
+    color: #cbd5e1;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.hidden { display: none !important; }
+
+/* AJUSTE DO BADGE E INPUT DA META CALÓRICA */
+.badge-macro-total {
+    background: #334155;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #38bdf8;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.input-meta {
+    background: #0f172a;
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    color: #38bdf8;
+    font-weight: 700;
+    font-size: 0.9rem;
+    width: 70px;
+    padding: 2px 6px;
+    border-radius: 6px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.input-meta:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
+}
+
+/* BUSCA RÁPIDA DE ALIMENTOS */
+.search-box-wrapper {
+    margin-bottom: 10px;
+}
+
+.input-search {
+    width: 100%;
+    background: #0f172a;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    font-size: 0.9rem;
+}
+
+.input-search:focus {
+    border-color: #38bdf8;
+}
+
+.select-meal {
+    border-color: rgba(56, 189, 248, 0.3);
+    font-weight: 600;
+}
+
+/* BLOCOS DE REFEIÇÕES NA LISTA */
+.meal-group {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 14px;
+}
+
+.meal-group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+.meal-group-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #38bdf8;
+}
+
+.meal-group-kcal {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #94a3b8;
+}
+
+.meal-food-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}

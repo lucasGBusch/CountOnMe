@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Treinos</title>
+    <link rel="stylesheet" href="css/treino.css">
+</head>
+<body>
+    <div class="container">
+        <!-- CABEÇALHO -->
+        <header class="header">
+            <h1>💪 Registro de Treino</h1>
+            <p>Organize suas fichas e acompanhe sua evolução de carga</p>
+        </header>
+
+        <!-- CRONÔMETRO DE DESCANSO -->
+        <div class="timer-card">
+            <div class="timer-header">
+                <span>⏱️ Timer de Descanso</span>
+                <span id="timer-display" class="timer-time">00:00</span>
+            </div>
+            <div class="timer-presets">
+                <button class="btn-timer" data-sec="30">30s</button>
+                <button class="btn-timer" data-sec="45">45s</button>
+                <button class="btn-timer" data-sec="60">60s</button>
+                <button class="btn-timer" data-sec="90">90s</button>
+                <button class="btn-timer" data-sec="120">2m</button>
+                <button id="btn-timer-stop" class="btn-timer-stop">⏹ Parar</button>
+            </div>
+        </div>
+
+        <!-- SELETOR DE FICHAS (TABS A / B / C) -->
+        <div class="workout-tabs">
+            <button class="tab-btn active" data-tab="a">
+                <strong id="tab-title-a">Treino A</strong>
+                <span id="tab-sub-a">Peito / Tríceps</span>
+            </button>
+            <button class="tab-btn" data-tab="b">
+                <strong id="tab-title-b">Treino B</strong>
+                <span id="tab-sub-b">Costas / Bíceps</span>
+            </button>
+            <button class="tab-btn" data-tab="c">
+                <strong id="tab-title-c">Treino C</strong>
+                <span id="tab-sub-c">Pernas / Ombros</span>
+            </button>
+        </div>
+
+        <!-- REGISTRO DE NOVO EXERCÍCIO -->
+        <div class="add-exercise-section">
+            <h4>Adicionar Exercício à Ficha</h4>
+            <form id="form-add-exercise">
+                <div class="form-grid">
+                    <div class="input-group full-width">
+                        <label for="exercise-name">Nome do Exercício</label>
+                        <input type="text" id="exercise-name" placeholder="Ex: Supino Reto com Barra" class="input-text" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="exercise-weight">Carga (kg)</label>
+                        <input type="number" id="exercise-weight" placeholder="Ex: 60" min="0" step="0.5" class="input-num" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="exercise-sets">Séries</label>
+                        <input type="number" id="exercise-sets" placeholder="Ex: 4" min="1" max="10" value="4" class="input-num" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="exercise-reps">Repetições</label>
+                        <input type="text" id="exercise-reps" placeholder="Ex: 10 a 12" class="input-text" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-add">+ Adicionar à Ficha</button>
+            </form>
+        </div>
+
+        <!-- LISTA DE EXERCÍCIOS DA FICHA ATIVA -->
+        <div class="workout-list-container">
+            <div class="list-header">
+                <div class="list-title-group">
+                    <h4 id="current-tab-title">Exercícios — Treino A</h4>
+                    <button id="btn-edit-tab-name" class="btn-inline-edit" title="Editar Nome da Ficha">✏️ Renomear Ficha</button>
+                </div>
+                <span id="total-exercises-badge" class="badge">0 exercícios</span>
+            </div>
+
+            <div id="exercise-list" class="exercise-list">
+                <!-- Preenchido via JS dinamicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE EDIÇÃO DE EXERCÍCIO -->
+    <div id="modal-edit-exercise" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>✏️ Editar Exercício</h4>
+                <button id="btn-close-edit-modal" class="btn-close">&times;</button>
+            </div>
+            <form id="form-edit-exercise">
+                <input type="hidden" id="edit-exercise-id">
+                
+                <div class="input-group">
+                    <label for="edit-exercise-name">Nome do Exercício</label>
+                    <input type="text" id="edit-exercise-name" class="input-text" required>
+                </div>
+
+                <div class="form-grid-modal">
+                    <div class="input-group">
+                        <label for="edit-exercise-weight">Carga (kg)</label>
+                        <input type="number" id="edit-exercise-weight" min="0" step="0.5" class="input-num" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="edit-exercise-sets">Séries</label>
+                        <input type="number" id="edit-exercise-sets" min="1" max="10" class="input-num" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="edit-exercise-reps">Repetições</label>
+                        <input type="text" id="edit-exercise-reps" class="input-text" required>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="btn-cancel-edit" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-save">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DE RENOMEAR FICHA -->
+    <div id="modal-edit-tab" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>🏷️ Renomear Ficha</h4>
+                <button id="btn-close-tab-modal" class="btn-close">&times;</button>
+            </div>
+            <form id="form-edit-tab">
+                <div class="input-group">
+                    <label for="edit-tab-title-input">Nome Principal (ex: Treino A)</label>
+                    <input type="text" id="edit-tab-title-input" class="input-text" required>
+                </div>
+                <div class="input-group" style="margin-top: 10px;">
+                    <label for="edit-tab-sub-input">Músculos / Foco (ex: Peito / Tríceps)</label>
+                    <input type="text" id="edit-tab-sub-input" class="input-text" required>
+                </div>
+                <div class="modal-actions" style="margin-top: 15px;">
+                    <button type="button" id="btn-cancel-tab-edit" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-save">Salvar Ficha</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/treino.js"></script>
+</body>
+</html>

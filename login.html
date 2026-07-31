@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acessar | CountOnMe</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="auth-body">
+
+    <div class="auth-container">
+        
+        <div class="auth-header">
+            <a href="index.html" class="back-link">← Voltar para a Home</a>
+            <h2>CountOnMe</h2>
+            <p>Sua evolução física sob controle.</p>
+        </div>
+
+        <div class="auth-card">
+            
+            <div class="auth-tabs">
+                <button id="tab-login" class="tab-btn active">Entrar</button>
+                <button id="tab-register" class="tab-btn">Criar Conta</button>
+            </div>
+
+            <!-- Formulário de LOGIN -->
+            <form id="form-login" class="auth-form">
+                <div class="input-group">
+                    <label for="login-email">E-mail</label>
+                    <input type="email" id="login-email" placeholder="seu@email.com" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="login-password">Senha</label>
+                    <input type="password" id="login-password" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn-primary btn-full">Entrar na Plataforma</button>
+            </form>
+
+            <!-- Formulário de CADASTRO -->
+            <form id="form-register" class="auth-form hidden">
+                <div class="input-group">
+                    <label for="reg-name">Nome Completo</label>
+                    <input type="text" id="reg-name" placeholder="Seu nome" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="reg-email">E-mail</label>
+                    <input type="email" id="reg-email" placeholder="seu@email.com" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="reg-password">Senha</label>
+                    <input type="password" id="reg-password" placeholder="Crie uma senha forte" required>
+                </div>
+
+                <button type="submit" class="btn-primary btn-full">Criar Minha Conta</button>
+            </form>
+
+        </div>
+
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+
+</html>

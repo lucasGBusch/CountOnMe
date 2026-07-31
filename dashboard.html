@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Atleta | CountOnMe</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="dashboard-body">
+
+    <div class="dashboard-layout">
+
+        <!-- BARRA LATERAL (SIDEBAR) -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <h2>CountOnMe</h2>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#overview" class="nav-item active">
+                    <span class="icon">🏠</span> Início
+                </a>
+                <a href="#calculators" class="nav-item">
+                    <span class="icon">🧮</span> Calculadoras
+                </a>
+                <a href="#workouts" class="nav-item">
+                    <span class="icon">🏋️</span> Meus Treinos
+                </a>
+                <a href="#nutrition" class="nav-item">
+                    <span class="icon">🥗</span> Dieta & Macros
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="login.html" id="btn-logout" class="btn-logout">
+                    <span class="icon">🚪</span> Sair
+                </a>
+            </div>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="dashboard-main">
+
+            <!-- TOPO / HEADER DO PAINEL -->
+            <header class="dash-header">
+                <div class="welcome-text">
+                    <h1>Olá, <span id="user-name-display">Atleta</span> 👋</h1>
+                    <p>Acompanhe suas métricas e evolua com consistência.</p>
+                </div>
+                <div class="user-badge">
+                    <div class="avatar">A</div>
+                    <span>Minha Conta</span>
+                </div>
+            </header>
+
+           
+         <!-- CARDS DE RESUMO RÁPIDO -->
+<section class="metrics-grid">
+    <div class="metric-card">
+        <span class="metric-label">Peso Atual</span>
+        <strong class="metric-value"><span id="val-weight">78.5</span> <small>kg</small></strong>
+        <span class="metric-status success" id="status-weight">↑ Meta: 82kg (Bulk)</span>
+    </div>
+
+    <div class="metric-card">
+        <span class="metric-label">IMC Calculado</span>
+        <strong class="metric-value" id="val-imc">24.2</strong>
+        <span class="metric-status" id="status-imc">Peso Normal</span>
+    </div>
+
+    <!-- CARD DE CALORIAS COM A ETIQUETA DINÂMICA DE OBJETIVO -->
+    <div class="metric-card">
+        <div class="metric-header-row">
+            <span class="metric-label">Meta Calórica Diária</span>
+            <span id="badge-goal" class="badge-goal badge-maint">⚡ Manutenção</span>
+        </div>
+        <strong class="metric-value"><span id="val-tdee">2.650</span> <small>kcal</small></strong>
+        <span class="metric-status" id="status-tdee">Foco: Manter Peso & Energia</span>
+    </div>
+</section>
+
+            <!-- MÓDULOS & CALCULADORAS -->
+            <section id="calculators" class="dash-section">
+                <h2>Ferramentas do Atleta</h2>
+                <div class="tools-grid">
+                    
+                    <div class="tool-card" data-tool="imc">
+                        <div class="tool-icon">📊</div>
+                        <h3>Calculadora de IMC</h3>
+                        <p>Índice de massa corporal e faixas de peso.</p>
+                        <button class="btn-tool">Acessar</button>
+                    </div>
+
+                    <div class="tool-card" data-tool="tmb">
+                        <div class="tool-icon">⚡</div>
+                        <h3>Metabolismo Basal (TMB)</h3>
+                        <p>Descubra quantas calorias seu corpo queima parado.</p>
+                        <button class="btn-tool">Acessar</button>
+                    </div>
+
+                    <div class="tool-card" data-tool="bulk">
+                        <div class="tool-icon">🔥</div>
+                        <h3>Calculadora de Bulk</h3>
+                        <p>Planeje seu superávit para ganho de massa.</p>
+                        <button class="btn-tool">Acessar</button>
+                    </div>
+
+                    <div class="tool-card" data-tool="cut">
+                        <div class="tool-icon">✂️</div>
+                        <h3>Calculadora de Cut</h3>
+                        <p>Planeje seu déficit para definição muscular.</p>
+                        <button class="btn-tool">Acessar</button>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+
+    </div>
+
+<!-- MODAL DE CALCULADORAS -->
+<div id="calculator-modal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modal-title">Calculadora</h3>
+            <button id="modal-close" class="modal-close-btn">&times;</button>
+        </div>
+        
+        <form id="calculator-form" class="modal-body">
+            <input type="hidden" id="calc-type" value="imc">
+
+            <div class="form-group">
+                <label for="calc-weight">Peso (kg)</label>
+                <input type="number" id="calc-weight" step="0.1" placeholder="Ex: 78.5" required>
+            </div>
+
+            <div class="form-group">
+                <label for="calc-height">Altura (cm)</label>
+                <input type="number" id="calc-height" placeholder="Ex: 180" required>
+            </div>
+
+            <div class="form-group calc-field-advanced hidden">
+                <label for="calc-age">Idade</label>
+                <input type="number" id="calc-age" placeholder="Ex: 25">
+            </div>
+
+            <div class="form-group calc-field-advanced hidden">
+                <label for="calc-gender">Gênero</label>
+                <select id="calc-gender">
+                    <option value="male">Masculino</option>
+                    <option value="female">Feminino</option>
+                </select>
+            </div>
+
+            <div class="form-group calc-field-activity hidden">
+                <label for="calc-activity">Nível de Atividade</label>
+                <select id="calc-activity">
+                    <option value="1.2">Sedentário (pouco ou nenhum exercício)</option>
+                    <option value="1.375">Levemente ativo (1-3 dias/semana)</option>
+                    <option value="1.55" selected>Moderadamente ativo (3-5 dias/semana)</option>
+                    <option value="1.725">Altamente ativo (6-7 dias/semana)</option>
+                    <option value="1.9">Extremamente ativo (treino pesado/trabalho físico)</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-primary">Calcular e Atualizar Dashboard</button>
+        </form>
+    </div>
+</div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>
