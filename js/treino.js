@@ -77,6 +77,11 @@ const btnEditTabName = document.getElementById('btn-edit-tab-name');
 
 // Carregamento
 document.addEventListener('DOMContentLoaded', () => {
+     if (sessionStorage.getItem('countonme_auth') !== 'true') {
+        window.location.href = 'login.html';
+        return;
+    }
+
     updateTabLabelsUI();
     setupTabListeners();
     setupFormListener();

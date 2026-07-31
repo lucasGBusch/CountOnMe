@@ -131,6 +131,11 @@ const CIRCUMFERENCE = 251.327; // 2 * PI * 40
 
 // 3. INICIALIZAÇÃO
 document.addEventListener('DOMContentLoaded', () => {
+      if (sessionStorage.getItem('countonme_auth') !== 'true') {
+        window.location.href = 'login.html';
+        return;
+    }
+    
     carregarOpcoesSelect();
     atualizarUnidadeBadge();
     atualizarDiarioUI();

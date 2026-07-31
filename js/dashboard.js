@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+    if (sessionStorage.getItem('countonme_auth') !== 'true') {
+        window.location.href = 'login.html';
+        return;
+    }
 
     // 1. SELEÇÃO DE ELEMENTOS DO DOM (IDs Corrigidos)
     const calcForm = document.getElementById('calculator-form');
@@ -178,8 +182,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 7. LOGOUT
     const btnLogout = document.getElementById('btn-logout');
     if (btnLogout) {
-        btnLogout.addEventListener('click', (e) => {
+          btnLogout.addEventListener('click', (e) => {
             e.preventDefault();
+            sessionStorage.removeItem('countonme_auth');
             window.location.href = 'login.html';
         });
     }

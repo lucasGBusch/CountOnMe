@@ -23,13 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
     formLogin.classList.add('hidden');
   });
 
-  formLogin.addEventListener('submit', (e) => {
+   formLogin.addEventListener('submit', (e) => {
     e.preventDefault();
-    alert('Login realizado! Redirecionando para o painel...');
+    sessionStorage.setItem('countonme_auth', 'true');
+    window.location.href = 'dashboard.html';
   });
 
   formRegister.addEventListener('submit', (e) => {
     e.preventDefault();
-    alert('Conta criada com sucesso!');
+    sessionStorage.setItem('countonme_auth', 'true');
+    window.location.href = 'dashboard.html';
   });
 });
