@@ -2,6 +2,37 @@
 let activeTab = 'a';
 let timerInterval = null;
 
+// Retorna a data de hoje no formato AAAA-MM-DD (usada pra resetar sessões de treino)
+function obterChaveDoDiaAtual() {
+    const hoje = new Date();
+    const ano = hoje.getFullYear();
+    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+    const dia = String(hoje.getDate()).padStart(2, '0');
+    return `${ano}-${mes}-${dia}`;
+}
+
+// Zera as séries marcadas de exercícios cuja última sessão não foi hoje
+function resetarSessoesAntigas() {
+    const hoje = obterChaveDoDiaAtual();
+    let houveMudanca = false;
+
+    ['a', 'b', 'c'].forEach(tab => {
+        workouts[tab] = workouts[tab].map(item => {
+            if (item.lastSessionDate !== hoje) {
+                houveMudanca = true;
+                return {
+                    ...item,
+                    completedSets: new Array(parseInt(item.sets) || 4).fill(false),
+                    lastSessionDate: hoje
+                };
+            }
+            return item;
+        });
+    });
+
+    if (houveMudanca) saveData();
+}
+
 let tabNames = JSON.parse(localStorage.getItem('tabNames')) || {
     a: { title: 'Treino A', sub: 'Peito / Tríceps' },
     b: { title: 'Treino B', sub: 'Costas / Bíceps' },
@@ -51,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupFormListener();
     setupModalListeners();
     setupTimer();
+    resetarSessoesAntigas();
     renderExercises();
 });
 
@@ -83,13 +115,14 @@ function setupFormListener() {
         e.preventDefault();
 
         const setsNum = parseInt(exerciseSetsInput.value) || 4;
-        const newExercise = {
+         const newExercise = {
             id: Date.now(),
             name: exerciseNameInput.value.trim(),
             weight: parseFloat(exerciseWeightInput.value) || 0,
             sets: setsNum,
             reps: exerciseRepsInput.value.trim(),
-            completedSets: new Array(setsNum).fill(false)
+            completedSets: new Array(setsNum).fill(false),
+            lastSessionDate: obterChaveDoDiaAtual()
         };
 
         workouts[activeTab].push(newExercise);
