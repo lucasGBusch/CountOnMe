@@ -81,9 +81,23 @@ const NOMES_REFEICOES = {
     lanche: '🍎 Lanches / Outros'
 };
 
+
+// Retorna a data de hoje no formato AAAA-MM-DD (usada para isolar o diário por dia)
+function obterChaveDoDiaAtual() {
+    const hoje = new Date();
+    const ano = hoje.getFullYear();
+    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+    const dia = String(hoje.getDate()).padStart(2, '0');
+    return `${ano}-${mes}-${dia}`;
+}
+
+const CHAVE_ALIMENTOS_HOJE = `my_logged_foods_${obterChaveDoDiaAtual()}`;
+
+
+
 // 2. ESTADO DA APLICAÇÃO
 let alimentosPersonalizados = JSON.parse(localStorage.getItem('my_custom_foods')) || {};
-let alimentosConsumidos = JSON.parse(localStorage.getItem('my_logged_foods')) || [];
+let alimentosConsumidos = JSON.parse(localStorage.getItem(CHAVE_ALIMENTOS_HOJE)) || [];
 let metaCaloricaTotal = parseInt(localStorage.getItem('user_meta_kcal')) || 2000;
 
 const CIRCUMFERENCE = 251.327; // 2 * PI * 40
@@ -277,7 +291,7 @@ function atualizarDiarioUI() {
         });
     }
 
-    localStorage.setItem('my_logged_foods', JSON.stringify(alimentosConsumidos));
+    localStorage.setItem(CHAVE_ALIMENTOS_HOJE, JSON.stringify(alimentosConsumidos));
 
     // Atualiza badges e legendas
     const currentKcalEl = document.getElementById('current-kcal');
