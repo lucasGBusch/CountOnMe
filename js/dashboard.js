@@ -1,13 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // 1. SELEÇÃO DE ELEMENTOS DO DOM
-    const calcForm = document.getElementById('calc-form');
-    const calcModal = document.getElementById('calc-modal');
-    const btnOpenModal = document.getElementById('btn-open-modal');
-    const btnCloseModal = document.getElementById('btn-close-modal');
+    // 1. SELEÇÃO DE ELEMENTOS DO DOM (IDs Corrigidos)
+    const calcForm = document.getElementById('calculator-form');
+    const calcModal = document.getElementById('calculator-modal');
+    const btnCloseModal = document.getElementById('modal-close');
     const calcTypeInput = document.getElementById('calc-type');
+    const modalTitle = document.getElementById('modal-title');
     
-    // Elementos dos Cards
+    // Campos dinâmicos da modal
+    const advancedFields = document.querySelectorAll('.calc-field-advanced');
+    const activityFields = document.querySelectorAll('.calc-field-activity');
+    
+    // Elementos dos Cards do Dashboard
     const valWeight = document.getElementById('val-weight');
     const valImc = document.getElementById('val-imc');
     const valTdee = document.getElementById('val-tdee');
@@ -25,15 +29,50 @@ document.addEventListener('DOMContentLoaded', () => {
         if (calcModal) calcModal.classList.remove('active');
     }
 
-    if (btnOpenModal) btnOpenModal.addEventListener('click', openModal);
     if (btnCloseModal) btnCloseModal.addEventListener('click', closeModal);
 
-    // Fechar ao clicar fora da modal
+    // Fechar ao clicar fora do conteúdo da modal
     window.addEventListener('click', (e) => {
         if (e.target === calcModal) closeModal();
     });
 
-    // 3. SUBMIT DO FORMULÁRIO (CÁLCULO E SALVAMENTO)
+    // 3. EVENT LISTENERS PARA OS BOTÕES "ACESSAR" (.btn-tool)
+    const toolButtons = document.querySelectorAll('.tool-card .btn-tool');
+    
+    toolButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const toolCard = e.target.closest('.tool-card');
+            const toolType = toolCard.getAttribute('data-tool');
+
+            if (calcTypeInput) calcTypeInput.value = toolType;
+
+            // Ajusta o título e a exibição dos campos de acordo com a ferramenta
+            if (toolType === 'imc') {
+                if (modalTitle) modalTitle.textContent = 'Calculadora de IMC';
+                advancedFields.forEach(el => el.classList.add('hidden'));
+                activityFields.forEach(el => el.classList.add('hidden'));
+
+            } else if (toolType === 'tmb') {
+                if (modalTitle) modalTitle.textContent = 'Metabolismo Basal (TMB)';
+                advancedFields.forEach(el => el.classList.remove('hidden'));
+                activityFields.forEach(el => el.classList.add('hidden'));
+
+            } else if (toolType === 'bulk') {
+                if (modalTitle) modalTitle.textContent = 'Calculadora de Bulk (+350 kcal)';
+                advancedFields.forEach(el => el.classList.remove('hidden'));
+                activityFields.forEach(el => el.classList.remove('hidden'));
+
+            } else if (toolType === 'cut') {
+                if (modalTitle) modalTitle.textContent = 'Calculadora de Cut (-450 kcal)';
+                advancedFields.forEach(el => el.classList.remove('hidden'));
+                activityFields.forEach(el => el.classList.remove('hidden'));
+            }
+
+            openModal();
+        });
+    });
+
+    // 4. SUBMIT DO FORMULÁRIO (CÁLCULO E SALVAMENTO)
     if (calcForm) {
         calcForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -49,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Cálculo do IMC
             const imc = (weight / (heightM * heightM)).toFixed(1);
 
-            // Cálculo da TMB / TDEE
+            // Cálculo da TMB / TDEE (Mifflin-St Jeor)
             let tmb = (10 * weight) + (6.25 * heightCm) - (5 * age);
             tmb = (gender === 'male') ? tmb + 5 : tmb - 161;
             let tdee = Math.round(tmb * activity);
@@ -84,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 4. FUNÇÃO PARA RENDERIZAR OS DADOS NA TELA
+    // 5. FUNÇÃO PARA RENDERIZAR OS DADOS NA TELA
     function renderData(data) {
         if (valWeight) valWeight.textContent = Number(data.weight).toFixed(1);
         if (valImc) valImc.textContent = data.imc;
@@ -125,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 5. CARREGAR DADOS SALVOS DO LOCALSTORAGE
+    // 6. CARREGAR DADOS SALVOS DO LOCALSTORAGE
     function loadSavedData() {
         const savedData = localStorage.getItem('fitDashboardData');
         if (savedData) {
@@ -134,15 +173,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Executa ao carregar a página
     loadSavedData();
 
-    // 6. LOGOUT
+    // 7. LOGOUT
     const btnLogout = document.getElementById('btn-logout');
     if (btnLogout) {
         btnLogout.addEventListener('click', (e) => {
             e.preventDefault();
-            window.location.href = 'index.html';
+            window.location.href = 'login.html';
         });
     }
 
