@@ -4,97 +4,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dieta & Macros | CountOnMe</title>
-
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/dashboard.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Diário Alimentar & Dashboard de Macros</title>
+    <link rel="stylesheet" href="css/diario.css">
 </head>
 
-<body class="dashboard-body">
+<body>
 
-    <div class="dashboard-layout">
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar">
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <span class="icon">🏠</span> Início
+            </a>
+            <a href="dashboard.html#calculators" class="nav-item">
+                <span class="icon">🧮</span> Calculadoras
+            </a>
+            <a href="treino.html" class="nav-item">
+                <span class="icon">🏋️</span> Meus Treinos
+            </a>
+            <a href="diario.html" class="nav-item active">
+                <span class="icon">🥗</span> Dieta & Macros
+            </a>
+            <a href="login.html" class="nav-item">
+                <span class="icon">🚪</span> Sair
+            </a>
+        </nav>
+    </aside>
 
-        <!-- BARRA LATERAL (SIDEBAR COM LINKS ATUALIZADOS) -->
-        <aside class="sidebar">
-            <div class="sidebar-brand">
-                <h2>CountOnMe</h2>
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="container">
+        <!-- CARD PRINCIPAL DO DIÁRIO -->
+        <section class="card card-diario">
+            <div class="card-header">
+                <div>
+                    <h3 class="card-title">Diário Alimentar & Dashboard</h3>
+                    <span class="card-subtitle">Ajuste suas metas e acompanhe seus macronutrientes</span>
+                </div>
+                <div class="badge-macro-total">
+                    <span id="current-kcal">0</span> /
+                    <input type="number" id="input-meta-kcal" value="2000" min="500" max="10000" step="50" class="input-meta">
+                    <span>kcal</span>
+                </div>
             </div>
 
-            <nav class="sidebar-nav">
-                <a href="dashboard.html" class="nav-item">
-                    <span class="icon">🏠</span> Início
-                </a>
-                <a href="dashboard.html#calculators" class="nav-item">
-                    <span class="icon">🧮</span> Calculadoras
-                </a>
-                <a href="treino.html" class="nav-item">
-                    <span class="icon">🏋️</span> Meus Treinos
-                </a>
-                <a href="diario.html" class="nav-item active">
-                    <span class="icon">🥗</span> Dieta & Macros
-                </a>
-            </nav>
-
-            <div class="sidebar-footer">
-                <a href="login.html" id="btn-logout" class="btn-logout">
-                    <span class="icon">🚪</span> Sair
-                </a>
+            <!-- PAINEL DE CONFIGURAÇÃO DE PORCENTAGEM DE MACROS -->
+            <div class="macro-ratios-config">
+                <span class="config-title">Ajustar Metas (%):</span>
+                <div class="ratio-inputs">
+                    <label>
+                        Carbo
+                        <input type="number" id="pct-carbo" value="50" min="0" max="100" class="input-pct"> %
+                    </label>
+                    <label>
+                        Proteína
+                        <input type="number" id="pct-protein" value="40" min="0" max="100" class="input-pct"> %
+                    </label>
+                    <label>
+                        Gordura
+                        <input type="number" id="pct-fat" value="10" min="0" max="100" class="input-pct"> %
+                    </label>
+                </div>
+                <div id="pct-warning" class="pct-warning hidden">A soma das porcentagens deve ser igual a 100%.</div>
             </div>
-        </aside>
 
-        <!-- CONTEÚDO PRINCIPAL -->
-        <main class="dashboard-main">
-
-            <!-- TOPO / HEADER DO PAINEL -->
-            <header class="dash-header">
-                <div class="welcome-text">
-                    <h1>Dieta & Diário Alimentar 🥗</h1>
-                    <p>Acompanhe suas metas de macronutrientes e controle sua alimentação.</p>
-                </div>
-                <div class="user-badge">
-                    <div class="avatar">A</div>
-                    <span>Minha Conta</span>
-                </div>
-            </header>
-
-            <!-- METAS DE MACROS (USANDO AS SUAS CLASSES EXATAS DE CARD) -->
-            <section class="metrics-grid">
-                
-                <div class="metric-card">
-                    <div class="metric-header-row">
-                        <span class="metric-label">Meta Calórica Diária</span>
-                        <span id="diario-goal-badge" class="badge-goal badge-maint">⚡ Manutenção</span>
+            <!-- DASHBOARD DE CÍRCULOS (PROGRESSO DE MACROS) -->
+            <div class="macro-circles-grid">
+                <!-- CARBOS -->
+                <div class="circle-card">
+                    <div class="circle-chart">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="circle-bg" cx="50" cy="50" r="40"></circle>
+                            <circle class="circle-progress fill-carbs" id="circle-carbs" cx="50" cy="50" r="40"></circle>
+                        </svg>
+                        <div class="circle-center">
+                            <span id="txt-carbs-pct" class="circle-pct">0%</span>
+                            <span class="circle-label">Carbo</span>
+                        </div>
                     </div>
-                    <strong class="metric-value"><span id="target-calories">0</span> <small>kcal</small></strong>
-                    <span class="metric-status" id="status-calories">Calculado no Dashboard</span>
+                    <div class="circle-details">
+                        <span class="macro-title dot-carbs-text">Carboidratos</span>
+                        <span id="txt-carbs-progress" class="macro-val">0g / 250g</span>
+                    </div>
                 </div>
 
-                <div class="metric-card">
-                    <span class="metric-label">Proteínas (2g / kg)</span>
-                    <strong class="metric-value"><span id="target-protein">0</span> <small>g</small></strong>
-                    <span class="metric-status">Construção Muscular</span>
+                <!-- PROTEÍNAS -->
+                <div class="circle-card">
+                    <div class="circle-chart">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="circle-bg" cx="50" cy="50" r="40"></circle>
+                            <circle class="circle-progress fill-protein" id="circle-protein" cx="50" cy="50" r="40"></circle>
+                        </svg>
+                        <div class="circle-center">
+                            <span id="txt-protein-pct" class="circle-pct">0%</span>
+                            <span class="circle-label">Proteína</span>
+                        </div>
+                    </div>
+                    <div class="circle-details">
+                        <span class="macro-title dot-protein-text">Proteínas</span>
+                        <span id="txt-protein-progress" class="macro-val">0g / 200g</span>
+                    </div>
                 </div>
 
-                <div class="metric-card">
-                    <span class="metric-label">Carboidratos</span>
-                    <strong class="metric-value"><span id="target-carbs">0</span> <small>g</small></strong>
-                    <span class="metric-status">Energia & Performance</span>
+                <!-- GORDURAS -->
+                <div class="circle-card">
+                    <div class="circle-chart">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="circle-bg" cx="50" cy="50" r="40"></circle>
+                            <circle class="circle-progress fill-fats" id="circle-fats" cx="50" cy="50" r="40"></circle>
+                        </svg>
+                        <div class="circle-center">
+                            <span id="txt-fats-pct" class="circle-pct">0%</span>
+                            <span class="circle-label">Gordura</span>
+                        </div>
+                    </div>
+                    <div class="circle-details">
+                        <span class="macro-title dot-fats-text">Gorduras</span>
+                        <span id="txt-fats-progress" class="macro-val">0g / 22g</span>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <!-- REGISTRO DE ALIMENTOS E BUSCA -->
+            <div class="add-food-section">
+                <h4>Adicionar Alimento à Refeição</h4>
+
+                <!-- Campo de Busca Rápida -->
+                <div class="search-box-wrapper">
+                    <input type="text" id="input-search-food" placeholder="🔍 Buscar alimento na lista..." class="input-text input-search">
                 </div>
 
-                <div class="metric-card">
-                    <span class="metric-label">Gorduras (1g / kg)</span>
-                    <strong class="metric-value"><span id="target-fat">0</span> <small>g</small></strong>
-                    <span class="metric-status">Saúde Hormonal</span>
+                <div class="food-controls">
+                    <!-- Seletor do Tipo de Refeição -->
+                    <select id="select-meal" class="input-select select-meal">
+                        <option value="cafe">☕ Café da Manhã</option>
+                        <option value="almoco">🍲 Almoço</option>
+                        <option value="jantar">🌙 Jantar</option>
+                        <option value="lanche">🍎 Lanches / Outros</option>
+                    </select>
+
+                    <select id="select-food" class="input-select">
+                        <!-- Preenchido via JS -->
+                    </select>
+
+                    <div class="input-qty-wrapper">
+                        <input type="number" id="input-grams" placeholder="Qtd" value="100" min="1" class="input-num">
+                        <span id="unit-badge" class="unit-badge">g</span>
+                    </div>
+
+                    <button id="btn-add-food" class="btn-add">+ Adicionar</button>
+                </div>
+                <div id="add-food-error" class="input-error hidden">Selecione um alimento e informe uma quantidade válida.</div>
+
+                <div class="custom-food-trigger">
+                    <span>Não encontrou o item desejado?</span>
+                    <button id="btn-open-custom-modal" class="btn-link">Cadastrar Alimento Personalizado</button>
+                </div>
+            </div>
+
+            <!-- REFEIÇÕES DO DIA (AGRUPADAS) -->
+            <div class="logged-list-container">
+                <h4>Refeições do Dia</h4>
+                <div id="logged-foods-list">
+                    <!-- Preenchido dinamicamente via JS por categorias de refeição -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL DE ALIMENTO PERSONALIZADO -->
+    <div id="modal-custom-food" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Cadastrar Alimento Personalizado</h3>
+                <button id="btn-close-modal" class="btn-close">&times;</button>
+            </div>
+
+            <form id="form-custom-food" class="modal-form">
+                <div class="form-group">
+                    <label>Nome do Alimento:</label>
+                    <input type="text" id="custom-name" placeholder="Ex: Pão de Forma / Whey Protein" required class="input-text">
                 </div>
 
-            </section>
+                <div class="form-group">
+                    <label>Tipo de Medida:</label>
+                    <select id="custom-type" class="input-select">
+                        <option value="g">Por Gramas (Tabela para 100g)</option>
+                        <option value="un">Por Unidade / Fatia / Colher (Tabela para 1 item)</option>
+                    </select>
+                </div>
 
-        </main>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Carbo (g):</label>
+                        <input type="number" id="custom-carbo" step="0.1" value="0" min="0" required class="input-num-modal">
+                    </div>
+                    <div class="form-group">
+                        <label>Proteína (g):</label>
+                        <input type="number" id="custom-prot" step="0.1" value="0" min="0" required class="input-num-modal">
+                    </div>
+                    <div class="form-group">
+                        <label>Gordura (g):</label>
+                        <input type="number" id="custom-gord" step="0.1" value="0" min="0" required class="input-num-modal">
+                    </div>
+                </div>
 
+                <div class="modal-actions">
+                    <button type="button" id="btn-cancel-modal" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar Alimento</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script src="js/diario.js"></script>

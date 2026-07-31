@@ -1,4 +1,4 @@
-// 1. BASE DE ALIMENTOS GENÉRICOS (tipo: 'g' = valores por 100g | tipo: 'un' = valores por 1 unidade)
+// 1. BASE DE ALIMENTOS GENÉRICOS (tipo: 'g' = por 100g | tipo: 'un' = por 1 unidade)
 const ALIMENTOS_GENERICOS = {
     // FRUTAS
     banana_g: { nome: "Banana (100g)", tipo: "g", g: 100, kcal: 89, carbo: 22.8, prot: 1.1, gord: 0.3 },
@@ -16,7 +16,7 @@ const ALIMENTOS_GENERICOS = {
     limao: { nome: "Limão (100g)", tipo: "g", g: 100, kcal: 29, carbo: 9.3, prot: 1.1, gord: 0.3 },
     kiwi: { nome: "Kiwi (100g)", tipo: "g", g: 100, kcal: 61, carbo: 14.7, prot: 1.1, gord: 0.5 },
 
-    // LEGUMES E VERDURAS (100g)
+    // LEGUMES E VERDURAS
     batata_inglesa_cozida: { nome: "Batata Inglesa Cozida", tipo: "g", g: 100, kcal: 87, carbo: 20.1, prot: 1.9, gord: 0.1 },
     batata_doce_cozida: { nome: "Batata Doce Cozida", tipo: "g", g: 100, kcal: 86, carbo: 20.1, prot: 1.6, gord: 0.1 },
     cenoura_crua: { nome: "Cenoura Crua", tipo: "g", g: 100, kcal: 41, carbo: 9.6, prot: 0.9, gord: 0.2 },
@@ -31,7 +31,7 @@ const ALIMENTOS_GENERICOS = {
     pimentao: { nome: "Pimentão", tipo: "g", g: 100, kcal: 20, carbo: 4.6, prot: 0.9, gord: 0.2 },
     pepino: { nome: "Pepino", tipo: "g", g: 100, kcal: 15, carbo: 3.6, prot: 0.7, gord: 0.1 },
 
-    // GRÃOS E LEGUMINOSAS COZIDAS (100g)
+    // GRÃOS E LEGUMINOSAS COZIDAS
     arroz_branco_cozido: { nome: "Arroz Branco Cozido", tipo: "g", g: 100, kcal: 130, carbo: 28.2, prot: 2.7, gord: 0.3 },
     arroz_integral_cozido: { nome: "Arroz Integral Cozido", tipo: "g", g: 100, kcal: 112, carbo: 23.5, prot: 2.6, gord: 0.9 },
     feijao_carioca_cozido: { nome: "Feijão Carioca Cozido", tipo: "g", g: 100, kcal: 76, carbo: 13.6, prot: 4.8, gord: 0.5 },
@@ -65,7 +65,7 @@ const ALIMENTOS_GENERICOS = {
     azeite_de_oliva: { nome: "Azeite de Oliva (100ml)", tipo: "g", g: 100, kcal: 884, carbo: 0.0, prot: 0.0, gord: 100.0 },
     pasta_de_amendoim: { nome: "Pasta de Amendoim (100g)", tipo: "g", g: 100, kcal: 588, carbo: 20.0, prot: 25.0, gord: 50.0 },
 
-    // PÃES, MASSAS E OUTROS
+    // PÃES E MASSAS
     pao_frances_un: { nome: "Pão Francês (1 un ~50g)", tipo: "un", kcal: 150, carbo: 29.0, prot: 4.0, gord: 1.5 },
     pao_de_forma_fat: { nome: "Pão de Forma (1 fatia)", tipo: "un", kcal: 60, carbo: 12.0, prot: 2.0, gord: 0.8 },
     pao_integral: { nome: "Pão Integral (100g)", tipo: "g", g: 100, kcal: 247, carbo: 41.3, prot: 13.0, gord: 3.4 },
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
     configurarEventos();
 });
 
-// PREENCHE O MENU DROPDOWN COM SUPORTE À BUSCA
+// PREENCHE O DROPDOWN COM SUPORTE À BUSCA
 function carregarOpcoesSelect(filtro = '') {
     const select = document.getElementById('select-food');
     if (!select) return;
@@ -104,6 +104,7 @@ function carregarOpcoesSelect(filtro = '') {
 
     const termo = filtro.toLowerCase().trim();
 
+    // Genéricos
     const groupGenericos = document.createElement('optgroup');
     groupGenericos.label = 'Alimentos Genéricos';
     let countGen = 0;
@@ -120,6 +121,7 @@ function carregarOpcoesSelect(filtro = '') {
     }
     if (countGen > 0) select.appendChild(groupGenericos);
 
+    // Personalizados
     const keysCustom = Object.keys(alimentosPersonalizados);
     if (keysCustom.length > 0) {
         const groupCustom = document.createElement('optgroup');
@@ -149,7 +151,7 @@ function carregarOpcoesSelect(filtro = '') {
     atualizarUnidadeBadge();
 }
 
-// RETORNA O OBJETO DO ALIMENTO SELECIONADO
+// BUSCA OBJETO DO ALIMENTO SELECIONADO
 function obterAlimentoSelecionado(val) {
     if (!val) return null;
     if (val.startsWith('gen_')) {
@@ -160,7 +162,7 @@ function obterAlimentoSelecionado(val) {
     return null;
 }
 
-// ALTERA O BADGE DE "g" PARA "un" E AJUSTA O VALOR PADRÃO
+// ALTERA BADGE DE "g" / "un" E VALOR PADRÃO DO INPUT
 function atualizarUnidadeBadge() {
     const select = document.getElementById('select-food');
     const badge = document.getElementById('unit-badge');
@@ -180,7 +182,7 @@ function atualizarUnidadeBadge() {
     }
 }
 
-// CALCULA METAS DE MACROS DE ACORDO COM AS %
+// CALCULA AS METAS DE MACROS COM BASE NAS PORCENTAGENS
 function calcularMetasMacros(totalKcal) {
     const pctCarbo = parseFloat(document.getElementById('pct-carbo')?.value) || 0;
     const pctProt  = parseFloat(document.getElementById('pct-protein')?.value) || 0;
@@ -203,7 +205,7 @@ function calcularMetasMacros(totalKcal) {
     };
 }
 
-// ATUALIZA A ANIMAÇÃO DO CÍRCULO SVG
+// ATUALIZA ANIMAÇÃO DO CIRCULAR SVG
 function atualizarCirculo(circleId, pctTextId, consumido, meta) {
     const circle = document.getElementById(circleId);
     const txtPct = document.getElementById(pctTextId);
@@ -216,7 +218,7 @@ function atualizarCirculo(circleId, pctTextId, consumido, meta) {
     txtPct.textContent = `${Math.round(pct)}%`;
 }
 
-// REFRESH COMPLETO DA TELA (COM GRUPOS DE REFEIÇÃO)
+// REFRESH COMPLETO NA INTERFACE
 function atualizarDiarioUI() {
     const listEl = document.getElementById('logged-foods-list');
     if (!listEl) return;
@@ -277,6 +279,7 @@ function atualizarDiarioUI() {
 
     localStorage.setItem('my_logged_foods', JSON.stringify(alimentosConsumidos));
 
+    // Atualiza badges e legendas
     const currentKcalEl = document.getElementById('current-kcal');
     if (currentKcalEl) currentKcalEl.textContent = Math.round(totKcal);
 
@@ -303,7 +306,7 @@ function atualizarDiarioUI() {
     atualizarCirculo('circle-fats', 'txt-fats-pct', totGord, metas.gordGrams);
 }
 
-// ADICIONAR ALIMENTO Á REFEIÇÃO
+// ADICIONAR ALIMENTO
 function adicionarAlimento() {
     const select = document.getElementById('select-food');
     const inputGrams = document.getElementById('input-grams');
@@ -342,10 +345,11 @@ function adicionarAlimento() {
     atualizarDiarioUI();
 }
 
-function removerAlimento(id) {
+// REMOVER ALIMENTO DO DIÁRIO (DISPONÍVEL NO ESCOPO GLOBAL)
+window.removerAlimento = function(id) {
     alimentosConsumidos = alimentosConsumidos.filter(item => item.id !== id);
     atualizarDiarioUI();
-}
+};
 
 // EVENTOS DA PÁGINA
 function configurarEventos() {
@@ -413,78 +417,3 @@ function configurarEventos() {
         toggleModal(false);
     });
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-
-    // 1. SELECT DOM ELEMENTS
-    const targetCaloriesEl = document.getElementById('target-calories');
-    const targetProteinEl = document.getElementById('target-protein');
-    const targetCarbsEl = document.getElementById('target-carbs');
-    const targetFatEl = document.getElementById('target-fat');
-    const goalBadgeEl = document.getElementById('diario-goal-badge');
-
-    // 2. LOAD & CALCULATE MACROS FROM LOCALSTORAGE
-    function loadMacroGoals() {
-        const savedData = localStorage.getItem('fitDashboardData');
-
-        if (!savedData) {
-            // Default fallback if calculator has not been run yet
-            renderMacroGoals({
-                tdee: 2000,
-                protein: 140,
-                carbs: 230,
-                fat: 60,
-                type: 'maint'
-            });
-            return;
-        }
-
-        const data = JSON.parse(savedData);
-        const weight = parseFloat(data.weight) || 70;
-        const tdee = parseInt(data.tdee) || 2000;
-
-        // --- MACRO CALCULATIONS ---
-        // Protein: 2.0g per kg bodyweight
-        const proteinGrams = Math.round(weight * 2.0);
-        const proteinKcal = proteinGrams * 4;
-
-        // Fat: 1.0g per kg bodyweight
-        const fatGrams = Math.round(weight * 1.0);
-        const fatKcal = fatGrams * 9;
-
-        // Carbs: Remaining target calories divided by 4 kcal/g
-        const remainingKcal = tdee - (proteinKcal + fatKcal);
-        const carbsGrams = Math.max(0, Math.round(remainingKcal / 4));
-
-        renderMacroGoals({
-            tdee: tdee,
-            protein: proteinGrams,
-            carbs: carbsGrams,
-            fat: fatGrams,
-            type: data.type
-        });
-    }
-
-    // 3. RENDER VALUES TO UI
-    function renderMacroGoals(macros) {
-        if (targetCaloriesEl) targetCaloriesEl.textContent = macros.tdee.toLocaleString('pt-BR');
-        if (targetProteinEl) targetProteinEl.textContent = macros.protein;
-        if (targetCarbsEl) targetCarbsEl.textContent = macros.carbs;
-        if (targetFatEl) targetFatEl.textContent = macros.fat;
-
-        if (goalBadgeEl) {
-            if (macros.type === 'bulk') {
-                goalBadgeEl.textContent = '🔥 Bulk';
-                goalBadgeEl.className = 'badge-goal badge-bulk';
-            } else if (macros.type === 'cut') {
-                goalBadgeEl.textContent = '✂️ Cut';
-                goalBadgeEl.className = 'badge-goal badge-cut';
-            } else {
-                goalBadgeEl.textContent = '⚡ Manutenção';
-                goalBadgeEl.className = 'badge-goal badge-maint';
-            }
-        }
-    }
-
-    loadMacroGoals();
-});
