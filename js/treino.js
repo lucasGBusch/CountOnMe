@@ -11,7 +11,6 @@ function obterChaveDoDiaAtual() {
     return `${ano}-${mes}-${dia}`;
 }
 
-// Zera as séries marcadas de exercícios cuja última sessão não foi hoje
 function resetarSessoesAntigas() {
     const hoje = obterChaveDoDiaAtual();
     let houveMudanca = false;
@@ -20,10 +19,18 @@ function resetarSessoesAntigas() {
         workouts[tab] = workouts[tab].map(item => {
             if (item.lastSessionDate !== hoje) {
                 houveMudanca = true;
+
+                const historico = item.history || [];
+                // só registra no histórico se já existia uma sessão anterior de verdade
+                if (item.lastSessionDate) {
+                    historico.push({ date: item.lastSessionDate, weight: item.weight });
+                }
+
                 return {
                     ...item,
                     completedSets: new Array(parseInt(item.sets) || 4).fill(false),
-                    lastSessionDate: hoje
+                    lastSessionDate: hoje,
+                    history: historico
                 };
             }
             return item;
@@ -31,6 +38,29 @@ function resetarSessoesAntigas() {
     });
 
     if (houveMudanca) saveData();
+}
+
+// Gera o HTML da lista de histórico de um exercício, com a diferença vs sessão anterior
+function gerarHtmlHistorico(item) {
+    const historico = item.history || [];
+
+    if (historico.length === 0) {
+        return '<p class="exercise-history-empty">Ainda sem histórico de sessões anteriores.</p>';
+    }
+
+    let html = '<ul class="exercise-history-list">';
+    historico.forEach((registro, index) => {
+        let deltaTexto = '';
+        if (index > 0) {
+            const delta = registro.weight - historico[index - 1].weight;
+            const sinal = delta >= 0 ? '+' : '';
+            deltaTexto = ` (${sinal}${delta.toFixed(1)}kg)`;
+        }
+        html += `<li>${registro.date} — ${registro.weight}kg${deltaTexto}</li>`;
+    });
+    html += '</ul>';
+
+    return html;
 }
 
 let tabNames = JSON.parse(localStorage.getItem('tabNames')) || {
@@ -367,6 +397,11 @@ function renderExercises() {
                 <div class="sets-circles">
                     ${setsHTML}
                 </div>
+            </div>
+
+            <div class="exercise-history">
+                <span class="history-label">Histórico:</span>
+                ${gerarHtmlHistorico(item)}
             </div>
         `;
 
