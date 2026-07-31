@@ -413,3 +413,78 @@ function configurarEventos() {
         toggleModal(false);
     });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    // 1. SELECT DOM ELEMENTS
+    const targetCaloriesEl = document.getElementById('target-calories');
+    const targetProteinEl = document.getElementById('target-protein');
+    const targetCarbsEl = document.getElementById('target-carbs');
+    const targetFatEl = document.getElementById('target-fat');
+    const goalBadgeEl = document.getElementById('diario-goal-badge');
+
+    // 2. LOAD & CALCULATE MACROS FROM LOCALSTORAGE
+    function loadMacroGoals() {
+        const savedData = localStorage.getItem('fitDashboardData');
+
+        if (!savedData) {
+            // Default fallback if calculator has not been run yet
+            renderMacroGoals({
+                tdee: 2000,
+                protein: 140,
+                carbs: 230,
+                fat: 60,
+                type: 'maint'
+            });
+            return;
+        }
+
+        const data = JSON.parse(savedData);
+        const weight = parseFloat(data.weight) || 70;
+        const tdee = parseInt(data.tdee) || 2000;
+
+        // --- MACRO CALCULATIONS ---
+        // Protein: 2.0g per kg bodyweight
+        const proteinGrams = Math.round(weight * 2.0);
+        const proteinKcal = proteinGrams * 4;
+
+        // Fat: 1.0g per kg bodyweight
+        const fatGrams = Math.round(weight * 1.0);
+        const fatKcal = fatGrams * 9;
+
+        // Carbs: Remaining target calories divided by 4 kcal/g
+        const remainingKcal = tdee - (proteinKcal + fatKcal);
+        const carbsGrams = Math.max(0, Math.round(remainingKcal / 4));
+
+        renderMacroGoals({
+            tdee: tdee,
+            protein: proteinGrams,
+            carbs: carbsGrams,
+            fat: fatGrams,
+            type: data.type
+        });
+    }
+
+    // 3. RENDER VALUES TO UI
+    function renderMacroGoals(macros) {
+        if (targetCaloriesEl) targetCaloriesEl.textContent = macros.tdee.toLocaleString('pt-BR');
+        if (targetProteinEl) targetProteinEl.textContent = `${macros.protein}g`;
+        if (targetCarbsEl) targetCarbsEl.textContent = `${macros.carbs}g`;
+        if (targetFatEl) targetFatEl.textContent = `${macros.fat}g`;
+
+        if (goalBadgeEl) {
+            if (macros.type === 'bulk') {
+                goalBadgeEl.textContent = '🔥 Bulk';
+                goalBadgeEl.className = 'badge badge-bulk';
+            } else if (macros.type === 'cut') {
+                goalBadgeEl.textContent = '✂️ Cut';
+                goalBadgeEl.className = 'badge badge-cut';
+            } else {
+                goalBadgeEl.textContent = '⚡ Manutenção';
+                goalBadgeEl.className = 'badge badge-maint';
+            }
+        }
+    }
+
+    loadMacroGoals();
+});

@@ -597,3 +597,33 @@ body {
     box-sizing: border-box;
     overflow-y: auto;
 }
+
+/* GRID LAYOUT FOR MACRO CARDS */
+.macro-targets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.target-card {
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.target-card span {
+    color: #94a3b8;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.target-card strong {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #ffffff;
+}
