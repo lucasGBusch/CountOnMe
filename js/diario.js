@@ -468,20 +468,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. RENDER VALUES TO UI
     function renderMacroGoals(macros) {
         if (targetCaloriesEl) targetCaloriesEl.textContent = macros.tdee.toLocaleString('pt-BR');
-        if (targetProteinEl) targetProteinEl.textContent = `${macros.protein}g`;
-        if (targetCarbsEl) targetCarbsEl.textContent = `${macros.carbs}g`;
-        if (targetFatEl) targetFatEl.textContent = `${macros.fat}g`;
+        if (targetProteinEl) targetProteinEl.textContent = macros.protein;
+        if (targetCarbsEl) targetCarbsEl.textContent = macros.carbs;
+        if (targetFatEl) targetFatEl.textContent = macros.fat;
 
         if (goalBadgeEl) {
             if (macros.type === 'bulk') {
                 goalBadgeEl.textContent = '🔥 Bulk';
-                goalBadgeEl.className = 'badge badge-bulk';
+                goalBadgeEl.className = 'badge-goal badge-bulk';
             } else if (macros.type === 'cut') {
                 goalBadgeEl.textContent = '✂️ Cut';
-                goalBadgeEl.className = 'badge badge-cut';
+                goalBadgeEl.className = 'badge-goal badge-cut';
             } else {
                 goalBadgeEl.textContent = '⚡ Manutenção';
-                goalBadgeEl.className = 'badge badge-maint';
+                goalBadgeEl.className = 'badge-goal badge-maint';
             }
         }
     }

@@ -8,19 +8,17 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
-    <link rel="stylesheet" href="css/diario.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body class="dashboard-body">
 
     <div class="dashboard-layout">
 
-        <!-- BARRA LATERAL (SIDEBAR) -->
+        <!-- BARRA LATERAL (SIDEBAR COM LINKS ATUALIZADOS) -->
         <aside class="sidebar">
             <div class="sidebar-brand">
                 <h2>CountOnMe</h2>
@@ -39,9 +37,6 @@
                 <a href="diario.html" class="nav-item active">
                     <span class="icon">🥗</span> Dieta & Macros
                 </a>
-                <a href="login.html" class="nav-item">
-                    <span class="icon">🚪</span> Sair
-                </a>
             </nav>
 
             <div class="sidebar-footer">
@@ -54,11 +49,11 @@
         <!-- CONTEÚDO PRINCIPAL -->
         <main class="dashboard-main">
 
-            <!-- HEADER DA PÁGINA -->
+            <!-- TOPO / HEADER DO PAINEL -->
             <header class="dash-header">
                 <div class="welcome-text">
                     <h1>Dieta & Diário Alimentar 🥗</h1>
-                    <p>Acompanhe suas metas de macronutrientes e registre suas refeições.</p>
+                    <p>Acompanhe suas metas de macronutrientes e controle sua alimentação.</p>
                 </div>
                 <div class="user-badge">
                     <div class="avatar">A</div>
@@ -66,86 +61,40 @@
                 </div>
             </header>
 
-            <!-- METAS DE MACRONUTRIENTES (Puxadas do localStorage) -->
-            <section class="macro-targets-grid">
-                <div class="target-card">
-                    <span class="card-label">Meta Calórica</span>
-                    <strong class="card-value"><span id="target-calories">0</span> <small>kcal</small></strong>
-                    <span id="diario-goal-badge" class="badge-goal badge-maint">⚡ Manutenção</span>
+            <!-- METAS DE MACROS (USANDO AS SUAS CLASSES EXATAS DE CARD) -->
+            <section class="metrics-grid">
+                
+                <div class="metric-card">
+                    <div class="metric-header-row">
+                        <span class="metric-label">Meta Calórica Diária</span>
+                        <span id="diario-goal-badge" class="badge-goal badge-maint">⚡ Manutenção</span>
+                    </div>
+                    <strong class="metric-value"><span id="target-calories">0</span> <small>kcal</small></strong>
+                    <span class="metric-status" id="status-calories">Calculado no Dashboard</span>
                 </div>
 
-                <div class="target-card">
-                    <span class="card-label">Proteínas (2g/kg)</span>
-                    <strong class="card-value" id="target-protein">0g</strong>
-                    <span class="card-subtext">Construção Muscular</span>
+                <div class="metric-card">
+                    <span class="metric-label">Proteínas (2g / kg)</span>
+                    <strong class="metric-value"><span id="target-protein">0</span> <small>g</small></strong>
+                    <span class="metric-status">Construção Muscular</span>
                 </div>
 
-                <div class="target-card">
-                    <span class="card-label">Carboidratos</span>
-                    <strong class="card-value" id="target-carbs">0g</strong>
-                    <span class="card-subtext">Energia & Performance</span>
+                <div class="metric-card">
+                    <span class="metric-label">Carboidratos</span>
+                    <strong class="metric-value"><span id="target-carbs">0</span> <small>g</small></strong>
+                    <span class="metric-status">Energia & Performance</span>
                 </div>
 
-                <div class="target-card">
-                    <span class="card-label">Gorduras (1g/kg)</span>
-                    <strong class="card-value" id="target-fat">0g</strong>
-                    <span class="card-subtext">Saúde Hormonal</span>
+                <div class="metric-card">
+                    <span class="metric-label">Gorduras (1g / kg)</span>
+                    <strong class="metric-value"><span id="target-fat">0</span> <small>g</small></strong>
+                    <span class="metric-status">Saúde Hormonal</span>
                 </div>
-            </section>
 
-            <!-- REGISTRO DE REFEIÇÕES -->
-            <section class="dash-section">
-                <h2>Registrar Refeição</h2>
-                <div class="card-container">
-                    <form id="meal-form" class="meal-form">
-                        <div class="form-row">
-                            <div class="form-group flex-2">
-                                <label for="meal-name">Alimento / Refeição</label>
-                                <input type="text" id="meal-name" placeholder="Ex: Frango com Batata Doce" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="meal-calories">Calorias (kcal)</label>
-                                <input type="number" id="meal-calories" placeholder="Ex: 450" required>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="meal-protein">Proteínas (g)</label>
-                                <input type="number" id="meal-protein" placeholder="Ex: 40">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="meal-carbs">Carboidratos (g)</label>
-                                <input type="number" id="meal-carbs" placeholder="Ex: 50">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="meal-fat">Gorduras (g)</label>
-                                <input type="number" id="meal-fat" placeholder="Ex: 10">
-                            </div>
-
-                            <div class="form-group button-group">
-                                <button type="submit" class="btn-primary">+ Adicionar</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </section>
-
-            <!-- HISTÓRICO DO DIA -->
-            <section class="dash-section">
-                <h2>Refeições de Hoje</h2>
-                <div class="card-container">
-                    <ul id="meal-list" class="meal-list">
-                        <!-- Refeições adicionadas via JS aparecerão aqui -->
-                        <li class="empty-state">Nenhuma refeição registrada hoje.</li>
-                    </ul>
-                </div>
             </section>
 
         </main>
+
     </div>
 
     <script src="js/diario.js"></script>
