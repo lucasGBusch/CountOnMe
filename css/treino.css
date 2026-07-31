@@ -434,3 +434,81 @@ body {
     font-size: 0.85rem; color: #64748b;
     text-align: center; padding: 12px 0;
 }
+
+/* ==========================================
+   SIDEBAR & GLOBAL LAYOUT STYLES
+   ========================================== */
+
+/* 1. Global Flexbox Layout: Side-by-Side Structure */
+body {
+    display: flex;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #0f172a; /* Sleek dark theme background */
+    color: #f8fafc;
+}
+
+/* 2. Sidebar Main Container */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #1e293b;
+    border-right: 1px solid #334155;
+    padding: 24px 16px;
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    flex-shrink: 0;
+}
+
+/* 3. Navigation List Stack */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 4. Individual Navigation Items */
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.nav-item .icon {
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+/* 5. Hover & Active States */
+.nav-item:hover {
+    background-color: #334155;
+    color: #ffffff;
+    transform: translateX(4px);
+}
+
+.nav-item.active {
+    background-color: #3b82f6; /* Highlight color */
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+/* 6. Main Content Area Adjustment */
+.container {
+    flex: 1;
+    padding: 32px;
+    max-width: calc(100% - 250px);
+    box-sizing: border-box;
+    overflow-y: auto;
+}
