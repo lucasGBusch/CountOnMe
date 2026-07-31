@@ -178,6 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     loadSavedData();
+    inicializarHistoricoDePeso();
 
     // 7. LOGOUT
     const btnLogout = document.getElementById('btn-logout');
@@ -187,6 +188,94 @@ document.addEventListener('DOMContentLoaded', () => {
             sessionStorage.removeItem('countonme_auth');
             window.location.href = 'login.html';
         });
+    }
+
+    // 8. HISTÓRICO DE PESO
+    function obterChaveDoDiaAtual() {
+        const hoje = new Date();
+        const ano = hoje.getFullYear();
+        const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+        const dia = String(hoje.getDate()).padStart(2, '0');
+        return `${ano}-${mes}-${dia}`;
+    }
+
+    function carregarHistoricoDePeso() {
+        return JSON.parse(localStorage.getItem('weightHistory')) || [];
+    }
+
+    function salvarHistoricoDePeso(historico) {
+        localStorage.setItem('weightHistory', JSON.stringify(historico));
+    }
+
+    function registrarPesoDeHoje(pesoValor) {
+        let historico = carregarHistoricoDePeso();
+        const hoje = obterChaveDoDiaAtual();
+
+        // Se já existe um registro de hoje, atualiza em vez de duplicar
+        const indiceExistente = historico.findIndex(item => item.date === hoje);
+        if (indiceExistente >= 0) {
+            historico[indiceExistente].weight = pesoValor;
+        } else {
+            historico.push({ date: hoje, weight: pesoValor });
+        }
+
+        historico.sort((a, b) => a.date.localeCompare(b.date));
+        salvarHistoricoDePeso(historico);
+        renderizarHistoricoDePeso(historico);
+    }
+
+    function renderizarHistoricoDePeso(historico) {
+        const lista = document.getElementById('weight-history-list');
+        const resumo = document.getElementById('weight-trend-summary');
+        if (!lista || !resumo) return;
+
+        lista.innerHTML = '';
+
+        if (historico.length === 0) {
+            resumo.textContent = 'Nenhum peso registrado ainda.';
+            return;
+        }
+
+        // Lista do mais recente pro mais antigo
+        [...historico].reverse().forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = `${item.date} — ${item.weight.toFixed(1)} kg`;
+            lista.appendChild(li);
+        });
+
+        // Tendência: compara o registro mais recente com o de ~7 dias atrás
+        const maisRecente = historico[historico.length - 1];
+        const seteDiasAtras = new Date(maisRecente.date);
+        seteDiasAtras.setDate(seteDiasAtras.getDate() - 7);
+
+        const referencia = [...historico].reverse().find(item => new Date(item.date) <= seteDiasAtras);
+
+        if (referencia) {
+            const diferenca = (maisRecente.weight - referencia.weight).toFixed(1);
+            const sinal = diferenca >= 0 ? '+' : '';
+            resumo.textContent = `${sinal}${diferenca}kg nos últimos 7 dias (de ${referencia.date} até ${maisRecente.date})`;
+        } else {
+            resumo.textContent = `Peso atual: ${maisRecente.weight.toFixed(1)}kg — ainda sem 7 dias de histórico pra calcular tendência`;
+        }
+    }
+
+    function inicializarHistoricoDePeso() {
+        const historico = carregarHistoricoDePeso();
+        renderizarHistoricoDePeso(historico);
+
+        const formLogWeight = document.getElementById('form-log-weight');
+        const inputTodayWeight = document.getElementById('input-today-weight');
+
+        if (formLogWeight) {
+            formLogWeight.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const peso = parseFloat(inputTodayWeight.value);
+                if (!peso || peso <= 0) return;
+
+                registrarPesoDeHoje(peso);
+                formLogWeight.reset();
+            });
+        }
     }
 
 });

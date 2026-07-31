@@ -91,6 +91,23 @@
                 </div>
             </section>
 
+            <!-- HISTÓRICO DE PESO -->
+            <section id="weight-history" class="dash-section">
+                <h2>Histórico de Peso</h2>
+
+                <form id="form-log-weight">
+                    <div class="form-group">
+                        <label for="input-today-weight">Peso de hoje (kg)</label>
+                        <input type="number" id="input-today-weight" step="0.1" placeholder="Ex: 69.5" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Registrar</button>
+                </form>
+
+                <p id="weight-trend-summary"></p>
+
+                <ul id="weight-history-list"></ul>
+            </section>
+
             <!-- MÓDULOS & CALCULADORAS -->
             <section id="calculators" class="dash-section">
                 <h2>Ferramentas do Atleta</h2>
