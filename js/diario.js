@@ -94,11 +94,38 @@ function obterChaveDoDiaAtual() {
 const CHAVE_ALIMENTOS_HOJE = `my_logged_foods_${obterChaveDoDiaAtual()}`;
 
 
+// Busca a meta calórica calculada no Dashboard (TDEE + ajuste de bulk/cut), se existir
+function obterMetaDoDashboard() {
+    const dadosDashboard = JSON.parse(localStorage.getItem('fitDashboardData'));
+    if (dadosDashboard && dadosDashboard.tdee && !isNaN(dadosDashboard.tdee)) {
+        return parseInt(dadosDashboard.tdee);
+    }
+    return null;
+}
+
+// Decide a meta calórica inicial: respeita edição manual do usuário no Diário,
+// senão puxa automaticamente a meta calculada no Dashboard, senão usa 2000 como padrão
+function definirMetaInicial() {
+    const editadoManualmente = localStorage.getItem('user_meta_kcal_manual') === 'true';
+
+    if (editadoManualmente) {
+        return parseInt(localStorage.getItem('user_meta_kcal')) || 2000;
+    }
+
+    const metaDashboard = obterMetaDoDashboard();
+    if (metaDashboard) {
+        localStorage.setItem('user_meta_kcal', metaDashboard);
+        return metaDashboard;
+    }
+
+    return parseInt(localStorage.getItem('user_meta_kcal')) || 2000;
+}
+
 
 // 2. ESTADO DA APLICAÇÃO
 let alimentosPersonalizados = JSON.parse(localStorage.getItem('my_custom_foods')) || {};
 let alimentosConsumidos = JSON.parse(localStorage.getItem(CHAVE_ALIMENTOS_HOJE)) || [];
-let metaCaloricaTotal = parseInt(localStorage.getItem('user_meta_kcal')) || 2000;
+let metaCaloricaTotal = definirMetaInicial();
 
 const CIRCUMFERENCE = 251.327; // 2 * PI * 40
 
@@ -386,6 +413,7 @@ function configurarEventos() {
             if (val > 0) {
                 metaCaloricaTotal = val;
                 localStorage.setItem('user_meta_kcal', metaCaloricaTotal);
+                localStorage.setItem('user_meta_kcal_manual', 'true');
                 atualizarDiarioUI();
             }
         });
