@@ -5,15 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CountOnMe - Sua evolução física sob controle</title>
+    <meta name="description" content="Calculadoras de IMC, TMB e macros, estratégias de Bulk e Cut e registro de treinos. Sua evolução física sob controle em um só lugar.">
 
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/landing.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 </head>
 
-<body>
+<body id="top">
 
     <header>
         <div class="logo">
@@ -27,55 +32,213 @@
         </nav>
     </header>
 
-    <section class="hero">
+    <section class="hero hero-pro">
+        <div class="hero-glow" aria-hidden="true"></div>
         <div class="hero-content">
-            <h1>Sua evolução física <br><span>sob controle.</span></h1>
-            <p>Calculadoras precisas de IMC, TMB, macros, estratégias de Bulk/Cut e registro de treinos em um só lugar.</p>
-            <div class="hero-buttons">
-                <a href="login.html" class="btn-primary">Começar Agora</a>
-                <a href="#ferramentas" class="btn-secondary">Conhecer Ferramentas</a>
+            <span class="hero-eyebrow"><i></i> Calculadoras, treinos e diário de macros</span>
+            <h1>
+                <span class="hero-line">Sua evolução física</span>
+                <span class="hero-line accent"> sob controle.</span>
+            </h1>
+            <p class="hero-sub">Calculadoras precisas de IMC, TMB e macros, estratégias de Bulk e Cut e registro de
+                treinos — tudo em um só lugar, com seus dados sempre por perto.</p>
+    
+                <div class="hero-buttons">
+                <!-- CTA com micro-interação (seta -> checkmark) -->
+                <a href="login.html" class="btn-primary cta-morph" id="cta-comecar">
+                    <span>Começar Agora</span>
+                    <svg class="cta-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path class="icon-arrow" d="M5 12h14M13 5l6 7-6 7" />
+                        <path class="icon-check" d="M20 6L9 17l-5-5" />
+                    </svg>
+                </a>
+
+                <!-- CTA com micro-interação (seta -> raio) -->
+                <a href="#ferramentas" class="btn-secondary cta-morph" id="cta-ferramentas">
+                    <span>Conhecer Ferramentas</span>
+                    <svg class="cta-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path class="icon-arrow" d="M5 12h14M13 5l6 7-6 7" />
+                        <path class="icon-bolt" d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                    </svg>
+                </a>
             </div>
+
+            <dl class="hero-stats">
+                <div class="hero-stat">
+                    <dt>6</dt>
+                    <dd>ferramentas</dd>
+                </div>
+                <div class="hero-stat">
+                    <dt>100%</dt>
+                    <dd>grátis para começar</dd>
+                </div>
+                <div class="hero-stat">
+                    <dt>1</dt>
+                    <dd>painel para tudo</dd>
+                </div>
+            </dl>
         </div>
     </section>
 
     <section id="ferramentas" class="tools">
+        <span class="section-tag">Ferramentas</span>
         <h2>Ferramentas Integradas</h2>
-        <p class="subtitle">Tudo o que você precisa para alcançar seu objetivo físico.</p>
+        <p class="subtitle">Passe o mouse em cada card para ver um resumo do que a ferramenta faz.</p>
 
-        <div class="cards">
-            <div class="card">
-                <h3>📊 IMC</h3>
-                <p>Descubra seu Índice de Massa Corporal.</p>
+        <div class="cards flip-cards">
+            <div class="flip-card">
+                <div class="flip-inner">
+                    <div class="flip-front">
+                        <span class="tool-emoji">📊</span>
+                        <h3>IMC</h3>
+                        <p>Descubra seu Índice de Massa Corporal.</p>
+                    </div>
+                    <div class="flip-back">
+                        <h3>IMC</h3>
+                        <p>Cálculo instantâneo com faixa de classificação e peso ideal estimado para sua altura.</p>
+                        <ul>
+                            <li>Classificação OMS</li>
+                            <li>Faixa de peso ideal</li>
+                            <li>Histórico salvo</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
-            <div class="card">
-                <h3>🔥 Bulk</h3>
-                <p>Calcule seu superávit calórico ideal.</p>
+            <div class="flip-card">
+                <div class="flip-inner">
+                    <div class="flip-front">
+                        <span class="tool-emoji">🔥</span>
+                        <h3>Bulk</h3>
+                        <p>Calcule seu superávit calórico ideal.</p>
+                    </div>
+                    <div class="flip-back">
+                        <h3>Bulk</h3>
+                        <p>Define o superávit certo para ganhar massa com o mínimo de gordura, ajustado ao seu ritmo.</p>
+                        <ul>
+                            <li>Superávit leve / moderado</li>
+                            <li>Meta semanal de kg</li>
+                            <li>Ajuste por treino</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
-            <div class="card">
-                <h3>✂️ Cut</h3>
-                <p>Planeje seu déficit para queima de gordura.</p>
+            <div class="flip-card">
+                <div class="flip-inner">
+                    <div class="flip-front">
+                        <span class="tool-emoji">✂️</span>
+                        <h3>Cut</h3>
+                        <p>Planeje seu déficit para queima de gordura.</p>
+                    </div>
+                    <div class="flip-back">
+                        <h3>Cut</h3>
+                        <p>Déficit seguro e sustentável, preservando massa magra e mantendo a performance no treino.</p>
+                        <ul>
+                            <li>Déficit calculado</li>
+                            <li>Proteção de massa magra</li>
+                            <li>Previsão de prazo</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
-            <div class="card">
-                <h3>⚡ TMB</h3>
-                <p>Descubra sua Taxa Metabólica Basal.</p>
+            <div class="flip-card">
+                <div class="flip-inner">
+                    <div class="flip-front">
+                        <span class="tool-emoji">⚡</span>
+                        <h3>TMB</h3>
+                        <p>Descubra sua Taxa Metabólica Basal.</p>
+                    </div>
+                    <div class="flip-back">
+                        <h3>TMB</h3>
+                        <p>Base de todo o planejamento: quantas calorias seu corpo gasta em repouso e em atividade.</p>
+                        <ul>
+                            <li>Mifflin-St Jeor</li>
+                            <li>Fator de atividade</li>
+                            <li>Gasto total (TDEE)</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
-            <div class="card">
-                <h3>🍗 Macros</h3>
-                <p>Organize proteínas, carboidratos e gorduras.</p>
+            <div class="flip-card">
+                <div class="flip-inner">
+                    <div class="flip-front">
+                        <span class="tool-emoji">🥑</span>
+                        <h3>Macros</h3>
+                        <p>Organize proteínas, carboidratos e gorduras.</p>
+                    </div>
+                    <div class="flip-back">
+                        <h3>Macros</h3>
+                        <p>Divisão de macros por objetivo, com metas diárias e diário para registrar o que você comeu.</p>
+                        <ul>
+                            <li>Split por objetivo</li>
+                            <li>Metas diárias</li>
+                            <li>Diário de refeições</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
-            <div class="card">
-                <h3>🏋️ Treinos</h3>
-                <p>Salve exercícios, cargas e sua progressão.</p>
+            <div class="flip-card">
+                <div class="flip-inner">
+                    <div class="flip-front">
+                        <span class="tool-emoji">🏋️</span>
+                        <h3>Treinos</h3>
+                        <p>Salve exercícios, cargas e sua progressão.</p>
+                    </div>
+                    <div class="flip-back">
+                        <h3>Treinos</h3>
+                        <p>Monte fichas, registre séries e acompanhe a evolução de carga semana após semana.</p>
+                        <ul>
+                            <li>Fichas personalizadas</li>
+                            <li>Registro de séries</li>
+                            <li>Curva de progressão</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
+    <section id="sobre" class="about">
+        <div class="about-grid">
+            <div class="about-intro">
+                <span class="section-tag">Sobre</span>
+                <h2>Menos planilhas, mais consistência.</h2>
+                <p>O CountOnMe reúne o que você usaria em cinco apps diferentes: números confiáveis para planejar a
+                    dieta, um diário de macros simples de manter e um registro de treinos que mostra sua progressão de
+                    carga com clareza.</p>
+            </div>
+            <div class="about-cards">
+                <div class="about-card">
+                    <h3>Cálculos confiáveis</h3>
+                    <p>Fórmulas validadas como Mifflin-St Jeor e faixas da OMS.</p>
+                </div>
+                <div class="about-card">
+                    <h3>Feito para o dia a dia</h3>
+                    <p>Interface rápida, direta e pensada para uso no celular.</p>
+                </div>
+                <div class="about-card">
+                    <h3>Tudo conectado</h3>
+                    <p>Seu TMB alimenta macros, bulk e cut automaticamente.</p>
+                </div>
+                <div class="about-card">
+                    <h3>Progresso visível</h3>
+                    <p>Histórico e evolução em gráficos fáceis de ler.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <span class="footer-brand">CountOnMe</span>
+        <span>© <span id="footer-year">2026</span> CountOnMe. Todos os direitos reservados.</span>
+    </footer>
+
     <script src="js/app.js"></script>
+    <script src="js/landing.js" defer></script>
 </body>
 
 </html>
